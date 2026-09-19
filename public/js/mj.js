@@ -398,10 +398,23 @@ function construireCartePartie(partie) {
         ? `${LIBELLES_PHASE[partie.phase]} ${partie.tour}`
         : LIBELLES_PHASE[partie.phase];
 
+    // Raccourci vers l'ecran a projeter, deja pointe sur la bonne partie.
+    const ecran = creer("a", {
+        classe: "bouton bouton-discret bouton-petit",
+        texte: "Écran",
+        attributs: {
+            href: `/ecran.html?code=${encodeURIComponent(partie.code)}`,
+            target: "_blank",
+            rel: "noopener",
+            title: "Ouvrir l'écran de suivi pour cette partie",
+        },
+    });
+
     carte.append(
         creer("header", { classe: "entete-partie" }, [
             creer("span", { classe: "code-partie", texte: partie.code }),
             creer("span", { classe: `etiquette-phase ${partie.phase}`, texte: libelle }),
+            ecran,
             fermer,
         ])
     );

@@ -53,15 +53,6 @@ export function texte(element, contenu) {
     if (element) element.textContent = contenu;
 }
 
-/** Remplace la liste des classes d'etat d'un element sans toucher aux autres. */
-export function poserEtat(element, prefixe, etat) {
-    if (!element) return;
-    for (const classe of [...element.classList]) {
-        if (classe.startsWith(prefixe)) element.classList.remove(classe);
-    }
-    if (etat) element.classList.add(prefixe + etat);
-}
-
 /**
  * Remplit une liste deroulante. Conserve la selection en cours quand la
  * valeur existe toujours, pour ne pas la perdre a chaque rafraichissement.

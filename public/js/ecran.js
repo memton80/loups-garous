@@ -89,13 +89,18 @@ function rendre() {
 
 // ─── Chronique ───────────────────────────────────────────────────
 
+/**
+ * Chaque cause porte la fin de phrase complete, verbe compris : « mort de
+ * chagrin » ne se construit pas comme « devore par les loups », et un seul
+ * gabarit « a ete … » produisait « a ete mort de chagrin ».
+ */
 const CAUSES = {
-    loups: "dévoré par les loups",
-    poison: "empoisonné par la sorcière",
-    vote: "lynché par le village",
-    chagrin: "mort de chagrin",
-    chasseur: "abattu par le chasseur",
-    mj: "retiré de la partie",
+    loups: "a été dévoré par les loups",
+    poison: "a été empoisonné par la sorcière",
+    vote: "a été lynché par le village",
+    chagrin: "est mort de chagrin",
+    chasseur: "a été abattu par le chasseur",
+    mj: "a été retiré de la partie",
 };
 
 function raconter(evenement) {
@@ -109,7 +114,7 @@ function raconter(evenement) {
             return { texte: `${nomDe(evenement.role)}, réveillez-vous.` };
         case "mort":
             return {
-                texte: `${evenement.pseudo} (${nomDe(evenement.role)}) a été ${CAUSES[evenement.cause] ?? "éliminé"}.`,
+                texte: `${evenement.pseudo} (${nomDe(evenement.role)}) ${CAUSES[evenement.cause] ?? "a été éliminé"}.`,
                 classe: "mort",
             };
         case "aucune-mort":

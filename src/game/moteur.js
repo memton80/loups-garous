@@ -107,9 +107,12 @@ function construireEtapes(partie) {
     const etapes = [];
 
     for (const fiche of ROLES_NOCTURNES) {
-        if (fiche.premiereNuitSeulement && partie.tour !== 1) continue;
-        // Cupidon n'agit qu'une fois : si le couple existe deja, on l'ignore.
-        if (fiche.id === "cupidon" && partie.amoureux) continue;
+        // Cupidon n'agit qu'une fois dans la partie : des que le couple est
+        // forme, on ne l'appelle plus. Mais tant qu'il ne l'est pas, on
+        // continue — sinon un Cupidon deconnecte la premiere nuit, ou une
+        // nuit rouverte par le maitre du jeu, condamnerait le couple a ne
+        // jamais exister.
+        if (fiche.premiereNuitSeulement && partie.amoureux) continue;
 
         const acteurs = joueursDuRole(partie, fiche.id);
         if (acteurs.length === 0) continue;

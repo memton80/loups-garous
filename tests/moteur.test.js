@@ -105,19 +105,37 @@ describe("deroulement de la nuit", () => {
         ]);
     });
 
-    it("n'appelle plus cupidon des la deuxieme nuit", () => {
+    it("n'appelle plus cupidon une fois le couple forme", () => {
         const partie = preparerPartie([
             "loup-garou", "voyante", "cupidon", "villageois", "villageois",
         ]);
         assert.equal(etapeCourante(partie).id, ETAPES_NUIT.CUPIDON);
 
-        // On traverse la nuit 1 puis le jour 1 sans rien faire.
+        const cupidon = parRole(partie, "cupidon");
+        const [premier, second] = tousParRole(partie, "villageois");
+        assert.ok(actionCupidon(partie, cupidon.id, [premier.id, second.id]).ok);
+
         while (partie.phase === PHASES.NUIT) avancer(partie);
         assert.equal(partie.phase, PHASES.JOUR);
         avancer(partie); // personne n'a vote : on repart en nuit
 
         assert.equal(partie.tour, 2);
         assert.equal(etapeCourante(partie).id, ETAPES_NUIT.VOYANTE);
+        assert.ok(!partie.etapes.some((e) => e.id === ETAPES_NUIT.CUPIDON));
+    });
+
+    it("rappelle cupidon tant que le couple n'est pas forme", () => {
+        const partie = preparerPartie([
+            "loup-garou", "voyante", "cupidon", "villageois", "villageois",
+        ]);
+
+        // Cupidon ne joue pas : deconnecte, ou nuit rouverte par le maitre
+        // du jeu. Sans rappel, le couple n'existerait jamais.
+        while (partie.phase === PHASES.NUIT) avancer(partie);
+        avancer(partie);
+
+        assert.equal(partie.tour, 2);
+        assert.equal(etapeCourante(partie).id, ETAPES_NUIT.CUPIDON);
     });
 
     it("saute l'etape d'un role dont plus personne n'est vivant", () => {

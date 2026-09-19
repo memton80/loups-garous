@@ -1,5 +1,5 @@
 import { ajouterJoueur, creerPartie, etapeCourante } from "../src/game/partie.js";
-import { avancer, ouvrirNuit } from "../src/game/moteur.js";
+import { avancer, demarrerNuit } from "../src/game/moteur.js";
 
 /**
  * Outils communs aux tests : ils permettent de poser une partie dans un etat
@@ -16,7 +16,7 @@ export function preparerPartie(roles, { ouvrir = true } = {}) {
         const joueur = ajouterJoueur(partie, `J${index + 1}`);
         joueur.role = roleId;
     });
-    if (ouvrir) ouvrirNuit(partie);
+    if (ouvrir) demarrerNuit(partie);
     return partie;
 }
 

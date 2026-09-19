@@ -118,6 +118,13 @@ function construireEtapes(partie) {
             id: fiche.etapeNuit,
             role: fiche.id,
             acteurs: acteurs.map((j) => j.id),
+            // Les roles qui epient la meute se reveillent pendant son tour.
+            espions:
+                fiche.etapeNuit === ETAPES_NUIT.LOUPS
+                    ? joueursVivants(partie)
+                          .filter((j) => role(j.role)?.epieLesLoups)
+                          .map((j) => j.id)
+                    : [],
             termine: false,
         });
     }
@@ -125,7 +132,7 @@ function construireEtapes(partie) {
     return etapes;
 }
 
-export function ouvrirNuit(partie) {
+function ouvrirNuit(partie) {
     partie.tour += 1;
     partie.phase = PHASES.NUIT;
 
@@ -152,13 +159,21 @@ function entrerEtapeSuivante(partie) {
     const etape = etapeCourante(partie);
     if (!etape) return resoudreNuit(partie);
 
-    return [
-        evenementPublic("etape", {
-            etape: etape.id,
-            role: etape.role,
-            acteurs: etape.acteurs,
-        }),
-    ];
+    // L'annonce de l'etape est publique — le maitre du jeu appelle les roles a
+    // voix haute, tout le monde l'entend. Mais l'identite de ceux qui se
+    // reveillent reste secrete : elle ne part qu'a eux.
+    const evenements = [evenementPublic("etape", { etape: etape.id, role: etape.role })];
+
+    if (etape.acteurs.length > 0) {
+        evenements.push(
+            evenementPrive("votre-tour", etape.acteurs, { etape: etape.id, role: etape.role })
+        );
+    }
+    if (etape.espions.length > 0) {
+        evenements.push(evenementPrive("espionner", etape.espions, { etape: etape.id }));
+    }
+
+    return evenements;
 }
 
 /** Cloture l'etape en cours ; seuls les loups ont un decompte a faire. */
@@ -213,9 +228,18 @@ function resoudreNuit(partie) {
     return evenements;
 }
 
+/**
+ * Ouvre la premiere nuit sur une partie dont les roles sont deja poses.
+ * Seul point d'entree public : il archive les evenements, contrairement aux
+ * fonctions internes qui se contentent de les rendre.
+ */
+export function demarrerNuit(partie) {
+    return succes(partie, ouvrirNuit(partie));
+}
+
 // ─── Jour ────────────────────────────────────────────────────────
 
-export function ouvrirJour(partie) {
+function ouvrirJour(partie) {
     partie.phase = PHASES.JOUR;
     partie.votesVillage.clear();
     partie.etapes = [];

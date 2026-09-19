@@ -196,3 +196,78 @@ export function etapeCourante(partie) {
 export function etapeCouranteId(partie) {
     return etapeCourante(partie)?.id ?? null;
 }
+
+/**
+ * Vue personnelle d'un joueur : son role, ce qu'il sait et ce qu'on attend de
+ * lui maintenant. C'est ce qui permet de retrouver exactement sa place apres
+ * une reconnexion, au lieu de repartir d'un ecran vide.
+ */
+export function etatPersonnel(partie, j) {
+    const etape = etapeCourante(partie);
+
+    const etat = {
+        joueurId: j.id,
+        pseudo: j.pseudo,
+        role: j.role,
+        vivant: j.vivant,
+        phase: partie.phase,
+        tour: partie.tour,
+        etape: etape?.id ?? null,
+        monTour: Boolean(j.vivant && etape?.acteurs.includes(j.id)),
+        epie: Boolean(j.vivant && etape?.espions.includes(j.id)),
+        doitTirer:
+            partie.enAttente?.type === "chasseur" && partie.enAttente.joueurId === j.id,
+        meute: null,
+        amoureux: null,
+        potions: null,
+        victimeDesLoups: null,
+        aDejaAgi: false,
+    };
+
+    if (campDe(j.role) === CAMPS.LOUPS) {
+        etat.meute = loupsVivants(partie).map((l) => ({ id: l.id, pseudo: l.pseudo }));
+    }
+
+    if (partie.amoureux?.includes(j.id)) {
+        const partenaireId = partie.amoureux.find((id) => id !== j.id);
+        const partenaire = partie.joueurs.get(partenaireId);
+        if (partenaire) etat.amoureux = { id: partenaire.id, pseudo: partenaire.pseudo };
+    }
+
+    if (j.role === "voyante") etat.aDejaAgi = partie.voyanteAJoue;
+
+    if (j.role === "sorciere") {
+        etat.potions = { ...partie.potions };
+        etat.aDejaAgi = partie.sorciereAJoue;
+        // La sorciere n'apprend le nom de la victime que pendant son tour.
+        if (etape?.id === "sorciere" && partie.cibleLoups) {
+            const victime = partie.joueurs.get(partie.cibleLoups);
+            if (victime) etat.victimeDesLoups = { id: victime.id, pseudo: victime.pseudo };
+        }
+    }
+
+    if (j.role === "cupidon") etat.aDejaAgi = Boolean(partie.amoureux);
+
+    return etat;
+}
+
+/**
+ * Evenements qu'un joueur donne a le droit de revoir : tout le public, plus
+ * ses propres confidences. Sert a reconstruire son journal a la reconnexion.
+ */
+export function historiquePour(partie, joueurId) {
+    return partie.historique
+        .filter(
+            (e) =>
+                e.visibilite === "publique" ||
+                (Array.isArray(e.destinataires) && e.destinataires.includes(joueurId))
+        )
+        .map(({ destinataires, ...reste }) => reste);
+}
+
+/** Journal public, pour l'ecran spectateur et les nouveaux arrivants. */
+export function historiquePublic(partie) {
+    return partie.historique
+        .filter((e) => e.visibilite === "publique")
+        .map(({ destinataires, ...reste }) => reste);
+}

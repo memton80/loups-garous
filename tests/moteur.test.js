@@ -621,3 +621,66 @@ describe("conditions de victoire", () => {
         assert.equal(avancer(partie).ok, false);
     });
 });
+
+describe("confidentialite", () => {
+    it("annonce l'etape a tous sans reveler qui se reveille", () => {
+        const partie = preparerPartie([
+            "loup-garou", "voyante", "sorciere", "villageois", "villageois",
+        ]);
+        const annonce = premierEvenement(partie.historique, "etape");
+        assert.equal(annonce.visibilite, "publique");
+        assert.equal(annonce.etape, ETAPES_NUIT.VOYANTE);
+        assert.equal(annonce.acteurs, undefined, "la liste des acteurs ne doit pas etre publique");
+    });
+
+    it("previent en prive le seul joueur dont c'est le tour", () => {
+        const partie = preparerPartie([
+            "loup-garou", "voyante", "sorciere", "villageois", "villageois",
+        ]);
+        const convocation = premierEvenement(partie.historique, "votre-tour");
+        assert.equal(convocation.visibilite, "privee");
+        assert.deepEqual(convocation.destinataires, [parRole(partie, "voyante").id]);
+    });
+
+    it("reveille la petite-fille pendant le tour des loups, et elle seule", () => {
+        const partie = preparerPartie([
+            "loup-garou", "loup-garou", "petite-fille", "villageois", "villageois", "villageois",
+        ]);
+        allerA(partie, ETAPES_NUIT.LOUPS);
+
+        const espionnage = premierEvenement(partie.historique, "espionner");
+        assert.equal(espionnage.visibilite, "privee");
+        assert.deepEqual(espionnage.destinataires, [parRole(partie, "petite-fille").id]);
+    });
+
+    it("ne publie jamais le role d'un joueur encore en vie", () => {
+        const partie = preparerPartie([
+            "loup-garou", "loup-garou", "voyante", "sorciere", "cupidon", "chasseur",
+            "petite-fille", "villageois", "villageois",
+        ]);
+
+        // Une nuit complete, avec toutes les actions possibles.
+        const cupidon = parRole(partie, "cupidon");
+        const [villageoisA, villageoisB] = tousParRole(partie, "villageois");
+        actionCupidon(partie, cupidon.id, [villageoisA.id, villageoisB.id]);
+        allerA(partie, ETAPES_NUIT.VOYANTE);
+        actionVoyante(partie, parRole(partie, "voyante").id, parRole(partie, "loup-garou").id);
+        allerA(partie, ETAPES_NUIT.LOUPS);
+        const [loupA, loupB] = tousParRole(partie, "loup-garou");
+        voterLoup(partie, loupA.id, villageoisA.id);
+        voterLoup(partie, loupB.id, villageoisA.id);
+        allerA(partie, ETAPES_NUIT.SORCIERE);
+        actionSorciere(partie, parRole(partie, "sorciere").id, { antidote: true });
+        avancer(partie);
+
+        const vivants = joueurs(partie).filter((j) => j.vivant);
+        const publics = JSON.stringify(partie.historique.filter((e) => e.visibilite === "publique"));
+
+        for (const vivant of vivants) {
+            assert.ok(
+                !publics.includes(`"${vivant.id}"`) || vivant.role === null,
+                `l'identifiant de ${vivant.pseudo} (${vivant.role}) fuite dans un evenement public`
+            );
+        }
+    });
+});

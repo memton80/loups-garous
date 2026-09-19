@@ -1,0 +1,103 @@
+/* ============================================================
+   accueil.css — page d'entree
+   ============================================================ */
+
+.accueil {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2.5rem 1.5rem 7rem;
+    text-align: center;
+}
+
+/* Lune en arriere-plan */
+.lune {
+    position: fixed;
+    top: -120px;
+    left: 50%;
+    width: 420px;
+    height: 420px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 38%, #fff8e7 0%, #e8c97a 30%, #7a4e10 70%, transparent 100%);
+    opacity: 0.13;
+    filter: blur(2px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Silhouette de foret en bas d'ecran */
+.foret {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 160px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.accueil-entete {
+    margin-bottom: 3rem;
+}
+
+.accueil-surtitre {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--attenue);
+}
+
+.accueil-titre {
+    font-family: "Cinzel Decorative", "Cinzel", Georgia, serif;
+    font-size: clamp(2.6rem, 12vw, 4rem);
+    color: var(--or);
+    text-shadow: 0 0 50px rgba(201, 168, 76, 0.35);
+}
+
+.accueil-lieu {
+    margin-top: 0.4rem;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 1rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--or-eteint);
+}
+
+.filet {
+    margin: 1.6rem auto 0;
+    max-width: 240px;
+    color: var(--or-eteint);
+    font-size: 0.8rem;
+}
+
+.filet::before,
+.filet::after {
+    content: "◆";
+    margin: 0 0.8rem;
+}
+
+.menu-accueil {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    width: 100%;
+    max-width: 320px;
+}
+
+.accueil-pied {
+    margin-top: 3rem;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--attenue);
+}
+
+.accueil-pied a {
+    color: var(--or-eteint);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--or-eteint);
+}

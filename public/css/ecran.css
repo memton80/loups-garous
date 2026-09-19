@@ -1,0 +1,212 @@
+/* ============================================================
+   ecran.css — affichage public, pour vidéoprojecteur ou télévision
+   ============================================================
+
+   Tout est dimensionné pour être lu de loin : les tailles suivent la
+   largeur de l'écran plutôt qu'une valeur fixe, si bien que la même page
+   reste lisible sur un portable posé sur la table comme sur un mur. */
+
+.ecran {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: clamp(1rem, 2vw, 2.5rem);
+}
+
+/* ─── Demande du code ────────────────────────────────────────── */
+
+.ecran-accueil {
+    margin: auto;
+    width: min(420px, 100%);
+    text-align: center;
+}
+
+.ecran-accueil h1 {
+    margin-bottom: 0.6rem;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--or);
+}
+
+/* ─── Bandeau du haut ────────────────────────────────────────── */
+
+.ecran-entete {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: clamp(1rem, 3vw, 3rem);
+    padding-bottom: clamp(0.8rem, 1.5vw, 1.4rem);
+    margin-bottom: clamp(1rem, 2vw, 2rem);
+    border-bottom: 1px solid var(--bordure);
+}
+
+.ecran-code {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    letter-spacing: 0.2em;
+    line-height: 1;
+    color: var(--or);
+    text-shadow: 0 0 60px rgba(201, 168, 76, 0.35);
+}
+
+.ecran-consigne {
+    font-size: clamp(0.8rem, 1.4vw, 1.1rem);
+    font-style: italic;
+    color: var(--attenue);
+}
+
+.ecran-phase {
+    margin-left: auto;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: clamp(1.1rem, 2.6vw, 2rem);
+    letter-spacing: 0.1em;
+    color: var(--argent);
+}
+
+.ecran-phase.nuit { color: var(--loup-garou-clair); }
+.ecran-phase.jour { color: var(--or-clair); }
+.ecran-phase.terminee { color: #e8a0a0; }
+
+/* ─── Corps : joueurs et journal ─────────────────────────────── */
+
+.ecran-corps {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: clamp(1rem, 2vw, 2rem);
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .ecran-corps {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ecran-titre-bloc {
+    margin-bottom: clamp(0.6rem, 1.2vw, 1.1rem);
+    font-family: "Cinzel", Georgia, serif;
+    font-size: clamp(0.7rem, 1.1vw, 0.95rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--attenue);
+}
+
+.village {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(clamp(140px, 14vw, 230px), 1fr));
+    gap: clamp(0.5rem, 1vw, 1rem);
+}
+
+.habitant {
+    padding: clamp(0.7rem, 1.4vw, 1.3rem);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+    background: var(--carte);
+    text-align: center;
+    transition: opacity 0.6s, border-color 0.6s, background 0.6s;
+}
+
+.habitant .nom {
+    display: block;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.5rem);
+    color: var(--texte);
+}
+
+.habitant .role {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: clamp(0.7rem, 1.1vw, 0.95rem);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-clair);
+}
+
+.habitant .etat {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: clamp(0.65rem, 1vw, 0.85rem);
+    font-style: italic;
+    color: var(--attenue);
+}
+
+.habitant.mort {
+    border-color: var(--sang);
+    background: rgba(139, 26, 26, 0.12);
+    opacity: 0.75;
+}
+
+.habitant.mort .nom {
+    text-decoration: line-through;
+    color: #e8a0a0;
+}
+
+.habitant.hors-ligne {
+    border-style: dashed;
+}
+
+/* ─── Journal ────────────────────────────────────────────────── */
+
+.ecran-journal {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 0.4rem;
+}
+
+.ecran-journal p {
+    padding: clamp(0.4rem, 0.8vw, 0.7rem) clamp(0.6rem, 1vw, 1rem);
+    border-left: 2px solid var(--bordure);
+    border-radius: 5px;
+    background: var(--profond);
+    font-size: clamp(0.8rem, 1.2vw, 1.05rem);
+    color: var(--attenue);
+}
+
+.ecran-journal p.mort {
+    border-left-color: var(--sang-clair);
+    background: rgba(139, 26, 26, 0.08);
+    color: #e8a0a0;
+}
+
+.ecran-journal p.phase {
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-family: "Cinzel", Georgia, serif;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--or-eteint);
+}
+
+.ecran-journal p.victoire {
+    border-left-color: var(--or);
+    background: rgba(201, 168, 76, 0.1);
+    color: var(--or-clair);
+}
+
+/* ─── Fin de partie ──────────────────────────────────────────── */
+
+.ecran-victoire {
+    padding: clamp(1rem, 2.5vw, 2.2rem);
+    margin-bottom: clamp(1rem, 2vw, 2rem);
+    border: 1px solid var(--or);
+    border-radius: var(--rayon);
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.18), var(--carte));
+    text-align: center;
+}
+
+.ecran-victoire h2 {
+    font-size: clamp(1.4rem, 4vw, 3rem);
+    color: var(--or-clair);
+}
+
+.ecran-victoire p {
+    margin-top: 0.4rem;
+    font-size: clamp(0.9rem, 1.6vw, 1.3rem);
+    color: var(--texte);
+}

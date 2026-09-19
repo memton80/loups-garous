@@ -1,0 +1,12 @@
+Les polices de ce dossier sont distribuees sous la licence
+SIL Open Font License, Version 1.1.
+
+  Cinzel            — Natanael Gama            https://fonts.google.com/specimen/Cinzel
+  Cinzel Decorative — Natanael Gama            https://fonts.google.com/specimen/Cinzel+Decorative
+  Crimson Text      — Sebastian Kosch          https://fonts.google.com/specimen/Crimson+Text
+
+Texte integral de la licence : https://scripts.sil.org/OFL
+
+Cette licence autorise l'usage, la modification et la redistribution des
+polices, y compris integrees a un projet, a condition de ne pas les vendre
+seules et de conserver la presente mention.

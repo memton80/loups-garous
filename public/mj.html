@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maître du jeu — tableau de bord</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/polices.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/composants.css">
+  <link rel="stylesheet" href="/css/mj.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<div class="page-mj">
+
+  <div class="barre-haut">
+    <span class="pastille-service" id="pastille-service" title="État de la connexion"></span>
+    <h1>Maître du jeu</h1>
+    <span class="compte-parties" id="compte-parties">aucune partie</span>
+    <button type="button" class="bouton bouton-discret bouton-petit" id="bouton-archives">Historique</button>
+  </div>
+
+  <div class="barre-creation">
+    <label for="code-nouvelle-partie">Nouvelle partie</label>
+    <input type="text" id="code-nouvelle-partie" maxlength="6" autocomplete="off" placeholder="Code (facultatif)">
+    <button type="button" class="bouton bouton-or" id="bouton-creer">Créer</button>
+    <span class="carte-aide" id="aide-creation">Laissez vide pour un code tiré au hasard.</span>
+  </div>
+
+  <div class="grille-parties" id="grille-parties">
+    <p class="aucune-partie">Aucune partie en cours. Créez-en une pour commencer.</p>
+  </div>
+
+</div>
+
+<!-- ─── Historique ──────────────────────────────────────────── -->
+<div class="voile" id="voile-archives" hidden>
+  <div class="carte" id="boite-archives">
+    <h2 class="carte-titre">Historique des parties</h2>
+    <div class="liste-archives" id="liste-archives"></div>
+    <div class="rejeu" id="rejeu" hidden></div>
+    <div class="groupe-boutons">
+      <button type="button" class="bouton bouton-discret" id="fermer-archives">Fermer</button>
+      <button type="button" class="bouton bouton-discret" id="retour-liste" hidden>Retour à la liste</button>
+    </div>
+  </div>
+</div>
+
+<div class="message-eclair" id="message-eclair" role="status" aria-live="polite"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/js/mj.js"></script>
+</body>
+</html>

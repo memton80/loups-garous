@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loup-Garou — écran de suivi</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/polices.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/composants.css">
+  <link rel="stylesheet" href="/css/ecran.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<main class="ecran">
+
+  <!-- ─── Choix de la partie à suivre ───────────────────────── -->
+  <section class="ecran-accueil" id="ecran-accueil">
+    <p class="ornement">✦ ✦ ✦</p>
+    <h1>Écran de suivi</h1>
+    <p class="carte-aide">À projeter ou à afficher sur une télévision. Cet écran ne révèle jamais le rôle d'un joueur vivant.</p>
+    <div class="champ">
+      <label for="champ-code">Code de la partie</label>
+      <input type="text" id="champ-code" maxlength="6" autocomplete="off" placeholder="Ex : K7PX">
+    </div>
+    <button type="button" class="bouton bouton-or bouton-large" id="bouton-suivre">Suivre la partie</button>
+  </section>
+
+  <!-- ─── Suivi ─────────────────────────────────────────────── -->
+  <div id="zone-suivi" hidden>
+
+    <header class="ecran-entete">
+      <div>
+        <p class="ecran-code" id="ecran-code"></p>
+        <p class="ecran-consigne">Rejoignez la partie avec ce code</p>
+      </div>
+      <p class="ecran-phase" id="ecran-phase">En attente</p>
+    </header>
+
+    <div class="ecran-victoire" id="ecran-victoire" hidden>
+      <h2 id="victoire-titre"></h2>
+      <p id="victoire-message"></p>
+    </div>
+
+    <div class="ecran-corps">
+      <section>
+        <h2 class="ecran-titre-bloc" id="titre-village">Le village</h2>
+        <div class="village" id="village"></div>
+      </section>
+
+      <section>
+        <h2 class="ecran-titre-bloc">Chronique</h2>
+        <div class="ecran-journal" id="journal"></div>
+      </section>
+    </div>
+
+  </div>
+</main>
+
+<div class="message-eclair" id="message-eclair" role="status" aria-live="polite"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/js/ecran.js"></script>
+</body>
+</html>

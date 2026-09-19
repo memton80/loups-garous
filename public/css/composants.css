@@ -1,0 +1,416 @@
+/* ============================================================
+   composants.css — briques reutilisees par toutes les pages
+   ============================================================ */
+
+/* ─── Cartes ─────────────────────────────────────────────────── */
+
+.carte {
+    background: var(--carte);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+    padding: 1.4rem;
+    margin-bottom: 1.2rem;
+}
+
+.carte-titre {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--attenue);
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+}
+
+.carte-aide {
+    color: var(--attenue);
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-bottom: 0.9rem;
+}
+
+/* Une carte qui attend une action du joueur se signale d'elle-meme. */
+.carte-action {
+    border-color: var(--accent);
+    box-shadow: 0 0 18px -6px var(--accent);
+}
+
+/* ─── Champs de saisie ───────────────────────────────────────── */
+
+.champ {
+    margin-bottom: 1rem;
+}
+
+.champ label {
+    display: block;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    color: var(--attenue);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    background: var(--profond);
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon-petit);
+    padding: 0.75rem 1rem;
+    color: var(--texte);
+    font-family: "Crimson Text", Georgia, serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+select {
+    cursor: pointer;
+    margin-bottom: 0.8rem;
+}
+
+input[type="text"]:focus,
+select:focus {
+    border-color: var(--or);
+    box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.2);
+}
+
+input[type="text"]::placeholder {
+    color: var(--attenue);
+}
+
+/* ─── Boutons ────────────────────────────────────────────────── */
+
+.bouton {
+    display: inline-block;
+    padding: 0.8rem 1.6rem;
+    border: none;
+    border-radius: var(--rayon-petit);
+    cursor: pointer;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-align: center;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.1s, background 0.2s;
+}
+
+.bouton:hover:not(:disabled) {
+    opacity: 0.88;
+}
+
+.bouton:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.bouton:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.bouton-large {
+    width: 100%;
+}
+
+.bouton-or {
+    background: var(--or);
+    color: var(--nuit);
+    font-weight: 700;
+}
+
+.bouton-sang {
+    background: linear-gradient(145deg, var(--sang), var(--sang-clair));
+    color: #f0d4d4;
+    font-weight: 600;
+}
+
+.bouton-vert {
+    background: #0f2e1e;
+    color: var(--vert);
+    border: 1px solid #1a4a30;
+}
+
+.bouton-nuit {
+    background: var(--profond);
+    color: var(--argent);
+    border: 1px solid var(--bordure);
+}
+
+.bouton-jour {
+    background: #2a2410;
+    color: var(--or-clair);
+    border: 1px solid #4a3a18;
+}
+
+.bouton-discret {
+    background: transparent;
+    color: var(--attenue);
+    border: 1px solid var(--bordure);
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+}
+
+.bouton-petit {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    letter-spacing: 0.08em;
+}
+
+.groupe-boutons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+/* ─── Bandeau de phase ───────────────────────────────────────── */
+
+.bandeau-phase {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--profond);
+    border: 1px solid var(--bordure);
+    border-radius: 8px;
+    padding: 0.9rem 1.2rem;
+    margin-bottom: 1.2rem;
+    transition: background 0.5s, border-color 0.5s, box-shadow 0.5s;
+}
+
+.bandeau-phase.nuit {
+    background: linear-gradient(90deg, rgba(26, 10, 42, 0.6), rgba(10, 5, 20, 0.8));
+    border-color: var(--loup-garou);
+    box-shadow: 0 0 10px rgba(107, 63, 160, 0.3);
+}
+
+.bandeau-phase.jour {
+    background: linear-gradient(90deg, rgba(42, 30, 10, 0.6), rgba(20, 15, 5, 0.8));
+    border-color: var(--or);
+    box-shadow: 0 0 10px rgba(201, 168, 76, 0.3);
+}
+
+.bandeau-phase.terminee {
+    border-color: var(--sang-clair);
+}
+
+.pastille-phase {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--attenue);
+    transition: background 0.5s, box-shadow 0.5s;
+}
+
+.bandeau-phase.nuit .pastille-phase {
+    background: var(--loup-garou-clair);
+    box-shadow: 0 0 8px var(--loup-garou-clair);
+}
+
+.bandeau-phase.jour .pastille-phase {
+    background: var(--or-clair);
+    box-shadow: 0 0 8px var(--or-clair);
+}
+
+.libelle-phase {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    color: var(--argent);
+}
+
+/* ─── Liste des joueurs ──────────────────────────────────────── */
+
+.liste-joueurs {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.liste-joueurs li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: var(--rayon-petit);
+    border-left: 3px solid transparent;
+    background: var(--profond);
+    transition: opacity 0.3s, background 0.3s;
+}
+
+.liste-joueurs li.moi {
+    border-left-color: var(--or);
+}
+
+.liste-joueurs li.mort {
+    opacity: 0.45;
+    background: rgba(139, 26, 26, 0.1);
+}
+
+.liste-joueurs li.mort .nom-joueur {
+    text-decoration: line-through;
+}
+
+.liste-joueurs li.hors-ligne {
+    opacity: 0.55;
+}
+
+.pastille-joueur {
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--attenue);
+}
+
+.pastille-joueur.vivant {
+    background: var(--vert);
+}
+
+.pastille-joueur.mort {
+    background: var(--sang-clair);
+}
+
+.role-revele {
+    margin-left: auto;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    background: var(--carte);
+    color: var(--accent-clair);
+    border: 1px solid var(--bordure);
+}
+
+/* ─── Journal ────────────────────────────────────────────────── */
+
+.journal {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 240px;
+    overflow-y: auto;
+    padding-right: 0.4rem;
+}
+
+.journal p {
+    padding: 0.45rem 0.75rem;
+    border-radius: 5px;
+    border-left: 2px solid var(--bordure);
+    background: var(--profond);
+    font-size: 0.92rem;
+    color: var(--attenue);
+}
+
+.journal p.phase {
+    border-left-color: var(--or-eteint);
+    color: var(--or-clair);
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: center;
+    background: transparent;
+}
+
+.journal p.mort {
+    border-left-color: var(--sang-clair);
+    color: #e08080;
+    background: rgba(139, 26, 26, 0.06);
+}
+
+.journal p.secret {
+    border-left-color: var(--voyante-clair);
+    color: var(--voyante-clair);
+    background: rgba(106, 90, 205, 0.06);
+}
+
+.journal p.victoire {
+    border-left-color: var(--or);
+    color: var(--or-clair);
+    background: rgba(201, 168, 76, 0.08);
+    font-weight: 600;
+}
+
+.journal-vide {
+    color: var(--attenue);
+    font-style: italic;
+}
+
+/* Petite animation de points de suspension, pour les ecrans d'attente. */
+.points::after {
+    content: "";
+    animation: points 1.5s steps(4, end) infinite;
+}
+
+@keyframes points {
+    0% { content: ""; }
+    25% { content: "."; }
+    50% { content: ".."; }
+    75% { content: "..."; }
+}
+
+/* ─── Message eclair ─────────────────────────────────────────── */
+
+.message-eclair {
+    position: fixed;
+    left: 50%;
+    bottom: 1.5rem;
+    transform: translate(-50%, 1rem);
+    z-index: 200;
+    max-width: calc(100vw - 2rem);
+    padding: 0.7rem 1.3rem;
+    border-radius: 24px;
+    background: var(--carte);
+    border: 1px solid var(--bordure);
+    color: var(--texte);
+    font-size: 0.9rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+}
+
+.message-eclair.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.message-eclair.erreur {
+    border-color: var(--sang-clair);
+    color: #e8a0a0;
+}
+
+/* ─── Fenetre modale ─────────────────────────────────────────── */
+
+.voile {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.boite-modale {
+    max-width: 340px;
+    padding: 2rem;
+    text-align: center;
+    background: var(--carte);
+    border: 1px solid var(--accent);
+    border-radius: var(--rayon);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.boite-modale h2 {
+    color: var(--accent-clair);
+    margin-bottom: 0.7rem;
+}
+
+.boite-modale p {
+    color: var(--attenue);
+    margin-bottom: 1.4rem;
+}

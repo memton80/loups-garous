@@ -42,7 +42,7 @@ describe("validation d'une composition", () => {
     it("refuse un total qui ne correspond pas au nombre de joueurs", () => {
         const erreurs = validerComposition({ "loup-garou": 1, villageois: 2 }, 5);
         assert.equal(erreurs.length, 1);
-        assert.match(erreurs[0], /3 roles pour 5 joueurs/);
+        assert.match(erreurs[0], /3 rôles pour 5 joueurs/);
     });
 
     it("refuse une partie sans loup", () => {
@@ -62,7 +62,7 @@ describe("validation d'une composition", () => {
 
     it("refuse un role inconnu", () => {
         const erreurs = validerComposition({ "loup-garou": 1, dragon: 3 }, 4);
-        assert.ok(erreurs.some((e) => /Role inconnu/.test(e)));
+        assert.ok(erreurs.some((e) => /Rôle inconnu/.test(e)));
     });
 
     it("accepte une composition correcte", () => {

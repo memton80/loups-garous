@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loup-Garou — Village de Lannion</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/polices.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/composants.css">
+  <link rel="stylesheet" href="/css/jeu.css">
+  <link rel="stylesheet" href="/css/roles.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<div class="page">
+
+  <header class="entete-page">
+    <p class="sur-titre">Village de Lannion</p>
+    <h1>Loup-Garou</h1>
+    <p class="sous-titre">Gardez votre rôle secret</p>
+  </header>
+
+  <div class="bandeau-phase" id="bandeau-phase">
+    <span class="pastille-phase" id="pastille-phase"></span>
+    <span class="libelle-phase" id="libelle-phase">En attente du maître du jeu</span>
+  </div>
+
+  <!-- ─── Entrée dans la partie ─────────────────────────────── -->
+  <section class="carte" id="zone-entree">
+    <h2 class="carte-titre">Rejoindre la partie</h2>
+    <div class="champ">
+      <label for="champ-pseudo">Votre nom</label>
+      <input type="text" id="champ-pseudo" maxlength="20" autocomplete="off" placeholder="Ex : Marie">
+    </div>
+    <div class="champ">
+      <label for="champ-code">Code de la partie</label>
+      <input type="text" id="champ-code" maxlength="6" autocomplete="off" placeholder="Ex : K7PX">
+    </div>
+    <button type="button" class="bouton bouton-or bouton-large" id="bouton-entrer">Entrer dans le village</button>
+    <p class="carte-aide" id="aide-entree">Le code vous est donné par le maître du jeu.</p>
+  </section>
+
+  <!-- ─── Partie en cours ───────────────────────────────────── -->
+  <section id="zone-jeu" hidden>
+
+    <div class="appel" id="appel" hidden>
+      <span id="appel-texte"></span>
+    </div>
+
+    <article class="carte-role" id="carte-role">
+      <p class="role-intitule">Votre rôle</p>
+      <p class="role-nom"><span class="role-icone" id="role-icone"></span><span id="role-nom">—</span></p>
+      <p class="role-description" id="role-description">En attente de l'attribution des rôles…</p>
+      <span class="badge-secret">Confidentiel</span>
+    </article>
+
+    <div class="carte carte-amoureux" id="carte-amoureux" hidden>
+      <h2 class="carte-titre">💞 Vous êtes amoureux</h2>
+      <p id="texte-amoureux"></p>
+      <p class="carte-aide">Si l'un de vous meurt, l'autre le suivra de chagrin.</p>
+    </div>
+
+    <!-- Cupidon -->
+    <div class="carte carte-action role-cupidon" id="action-cupidon" hidden>
+      <h2 class="carte-titre">💘 Cupidon</h2>
+      <p class="carte-aide">Désignez les deux joueurs qui s'aimeront. Vous pouvez vous choisir vous-même.</p>
+      <div class="paire-selects">
+        <select id="cupidon-premier" aria-label="Premier amoureux"></select>
+        <select id="cupidon-second" aria-label="Second amoureux"></select>
+      </div>
+      <button type="button" class="bouton bouton-or bouton-large" id="bouton-cupidon">Lier les amoureux</button>
+    </div>
+
+    <!-- Voyante -->
+    <div class="carte carte-action role-voyante" id="action-voyante" hidden>
+      <h2 class="carte-titre">🔮 Voyante</h2>
+      <p class="carte-aide">Découvrez le rôle d'un joueur. Une seule fois cette nuit.</p>
+      <select id="voyante-cible" aria-label="Joueur à sonder"></select>
+      <button type="button" class="bouton bouton-or bouton-large" id="bouton-voyante">Révéler son rôle</button>
+      <div class="revelation" id="voyante-revelation" hidden></div>
+    </div>
+
+    <!-- Loups -->
+    <div class="carte carte-action role-loup-garou" id="action-loups" hidden>
+      <h2 class="carte-titre">🐺 La meute se réunit</h2>
+      <p class="carte-aide">Mettez-vous d'accord sur une victime. En cas d'égalité, personne ne sera dévoré.</p>
+      <div class="meute" id="meute"></div>
+      <select id="loups-cible" aria-label="Victime des loups"></select>
+      <button type="button" class="bouton bouton-sang bouton-large" id="bouton-loups">Désigner la victime</button>
+      <div class="decompte" id="loups-decompte"></div>
+      <p class="etat-vote" id="loups-etat"></p>
+    </div>
+
+    <!-- Petite-fille -->
+    <div class="carte carte-action role-petite-fille" id="action-petite-fille" hidden>
+      <h2 class="carte-titre">👁️ Vous entrouvrez un œil</h2>
+      <p class="carte-aide">Les loups se réveillent. Observez la table sans vous faire repérer — l'application ne vous dira rien de plus.</p>
+    </div>
+
+    <!-- Sorcière -->
+    <div class="carte carte-action role-sorciere" id="action-sorciere" hidden>
+      <h2 class="carte-titre">🧪 Sorcière</h2>
+      <div class="victime-annoncee" id="sorciere-victime"></div>
+      <div class="groupe-boutons">
+        <button type="button" class="bouton bouton-vert" id="bouton-antidote">💊 Sauver la victime</button>
+        <button type="button" class="bouton bouton-discret" id="bouton-passer-sorciere">Passer mon tour</button>
+      </div>
+      <p class="potion-epuisee" id="antidote-epuise" hidden>Votre antidote est déjà consommé.</p>
+      <hr class="separateur">
+      <p class="carte-aide">Empoisonner quelqu'un cette nuit ?</p>
+      <select id="poison-cible" aria-label="Joueur à empoisonner"></select>
+      <button type="button" class="bouton bouton-sang bouton-large" id="bouton-poison">☠️ Empoisonner</button>
+      <p class="potion-epuisee" id="poison-epuise" hidden>Votre poison est déjà consommé.</p>
+    </div>
+
+    <!-- Chasseur -->
+    <div class="carte carte-action role-chasseur" id="action-chasseur" hidden>
+      <h2 class="carte-titre">🏹 Votre dernière cartouche</h2>
+      <p class="carte-aide">Vous tombez, mais vous ne partez pas seul. Désignez un joueur : il meurt sur le champ.</p>
+      <select id="chasseur-cible" aria-label="Cible du chasseur"></select>
+      <button type="button" class="bouton bouton-sang bouton-large" id="bouton-chasseur">Tirer</button>
+    </div>
+
+    <!-- Vote du village -->
+    <div class="carte" id="zone-vote" hidden>
+      <h2 class="carte-titre">⚖️ Vote du village</h2>
+      <p class="carte-aide">Le débat se tient à voix haute. Quand vous êtes décidés, enregistrez votre voix.</p>
+      <select id="vote-cible" aria-label="Joueur à éliminer"></select>
+      <button type="button" class="bouton bouton-sang bouton-large" id="bouton-vote">Voter pour l'élimination</button>
+      <div class="decompte" id="vote-decompte"></div>
+    </div>
+
+    <!-- Fin de partie -->
+    <div class="annonce-victoire" id="annonce-victoire" hidden>
+      <h2 id="victoire-titre"></h2>
+      <p id="victoire-message"></p>
+      <table class="tableau-revelations"><tbody id="victoire-revelations"></tbody></table>
+    </div>
+
+    <div class="carte">
+      <h2 class="carte-titre">Villageois</h2>
+      <ul class="liste-joueurs" id="liste-joueurs"></ul>
+    </div>
+
+    <div class="carte">
+      <h2 class="carte-titre">Journal de la partie</h2>
+      <div class="journal" id="journal">
+        <p class="journal-vide">Les événements apparaîtront ici<span class="points"></span></p>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- ─── Panneau des rôles ───────────────────────────────────── -->
+<div class="barre-regles" id="barre-regles">
+  <button type="button" class="bouton-regles" id="ouvrir-roles">📖 Voir les rôles</button>
+</div>
+
+<div class="panneau-roles" id="panneau-roles" hidden>
+  <div class="panneau-entete">
+    <p class="ornement">✦ ✦ ✦</p>
+    <h2>Les Rôles</h2>
+    <p>Touchez un rôle pour découvrir ses pouvoirs</p>
+  </div>
+  <div id="contenu-roles"></div>
+</div>
+
+<button type="button" class="bouton bouton-discret bouton-fermer-roles" id="fermer-roles" hidden>✕ Fermer</button>
+
+<!-- ─── Éjection ────────────────────────────────────────────── -->
+<div class="voile" id="modale-ejecte" hidden>
+  <div class="boite-modale">
+    <h2>Partie quittée</h2>
+    <p id="motif-ejection"></p>
+    <a class="bouton bouton-or bouton-large" href="/">Retour à l'accueil</a>
+  </div>
+</div>
+
+<div class="message-eclair" id="message-eclair" role="status" aria-live="polite"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/js/jeu.js"></script>
+</body>
+</html>

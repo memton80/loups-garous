@@ -1,0 +1,303 @@
+/* ============================================================
+   jeu.css — page du joueur : carte de role et actions
+   ============================================================ */
+
+/* ─── Accent par role ────────────────────────────────────────
+   Une seule regle par role, au lieu d'un bloc complet repete sept fois :
+   la classe pose le couple de teintes, tout le reste lit --accent. */
+
+.role-villageois    { --accent: var(--villageois);    --accent-clair: var(--villageois-clair); }
+.role-loup-garou    { --accent: var(--loup-garou);    --accent-clair: var(--loup-garou-clair); }
+.role-voyante       { --accent: var(--voyante);       --accent-clair: var(--voyante-clair); }
+.role-sorciere      { --accent: var(--sorciere);      --accent-clair: var(--sorciere-clair); }
+.role-cupidon       { --accent: var(--cupidon);       --accent-clair: var(--cupidon-clair); }
+.role-petite-fille  { --accent: var(--petite-fille);  --accent-clair: var(--petite-fille-clair); }
+.role-chasseur      { --accent: var(--chasseur);      --accent-clair: var(--chasseur-clair); }
+
+/* ─── Carte de role ──────────────────────────────────────────── */
+
+.carte-role {
+    position: relative;
+    overflow: hidden;
+    padding: 1.6rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--rayon);
+    /* Repli d'abord, degrade teinte ensuite : un navigateur qui ne connait
+       pas color-mix ignore la seconde regle et garde un fond correct. */
+    background: var(--carte);
+    background:
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, var(--carte)), var(--carte));
+    box-shadow: 0 0 20px -8px var(--accent);
+    transition: border-color 0.6s, box-shadow 0.6s, background 0.6s;
+}
+
+/* Halo qui respire dans le coin de la carte. */
+.carte-role::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--accent-clair);
+    opacity: 0.12;
+    animation: halo 4s ease-in-out infinite;
+}
+
+@keyframes halo {
+    0%, 100% { opacity: 0.08; transform: scale(1); }
+    50%      { opacity: 0.24; transform: scale(1.08); }
+}
+
+.role-intitule {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--attenue);
+    margin-bottom: 0.4rem;
+}
+
+.role-nom {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent-clair);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--accent-clair) 40%, transparent);
+}
+
+.role-icone {
+    font-size: 1.6rem;
+    margin-right: 0.4rem;
+}
+
+.role-description {
+    margin-top: 0.6rem;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--attenue);
+}
+
+.badge-secret {
+    display: inline-block;
+    margin-top: 0.9rem;
+    padding: 0.28rem 0.8rem;
+    border-radius: 20px;
+    border: 1px solid var(--bordure);
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--attenue);
+}
+
+/* Un joueur mort garde sa carte, mais elle s'eteint. */
+.carte-role.mort {
+    filter: grayscale(0.7);
+    opacity: 0.65;
+}
+
+.carte-role.mort::before {
+    animation: none;
+}
+
+/* ─── Bandeau « c'est a vous » ───────────────────────────────── */
+
+.appel {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.8rem 1.1rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    background: var(--profond);
+    background: color-mix(in srgb, var(--accent) 12%, var(--profond));
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    color: var(--accent-clair);
+    animation: appel-pulse 2s ease-in-out infinite;
+}
+
+@keyframes appel-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.45); }
+    70%      { box-shadow: 0 0 0 10px transparent; }
+}
+
+/* ─── Equipe des loups ───────────────────────────────────────── */
+
+.meute {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+}
+
+.meute span {
+    padding: 0.25rem 0.7rem;
+    border-radius: 14px;
+    border: 1px solid var(--loup-garou);
+    background: rgba(107, 63, 160, 0.18);
+    color: var(--loup-garou-clair);
+    font-size: 0.85rem;
+}
+
+/* ─── Decomptes de votes ─────────────────────────────────────── */
+
+.decompte {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--attenue);
+}
+
+.decompte span {
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    background: var(--profond);
+    border: 1px solid var(--bordure);
+}
+
+.etat-vote {
+    margin-top: 0.7rem;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--attenue);
+}
+
+/* ─── Revelation de la voyante ───────────────────────────────── */
+
+.revelation {
+    margin-top: 0.9rem;
+    padding: 0.8rem 1rem;
+    border-radius: var(--rayon-petit);
+    border: 1px solid var(--voyante);
+    background: rgba(106, 90, 205, 0.12);
+    color: var(--voyante-clair);
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* ─── Sorciere ───────────────────────────────────────────────── */
+
+.victime-annoncee {
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.9rem;
+    border-radius: var(--rayon-petit);
+    border: 1px solid var(--sang);
+    background: rgba(139, 26, 26, 0.12);
+    color: #e8b0b0;
+    text-align: center;
+}
+
+.separateur {
+    height: 1px;
+    margin: 1.1rem 0;
+    border: none;
+    background: var(--bordure);
+}
+
+.potion-epuisee {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--attenue);
+}
+
+/* ─── Cupidon ────────────────────────────────────────────────── */
+
+.paire-selects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+}
+
+@media (max-width: 420px) {
+    .paire-selects {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ─── Amoureux ───────────────────────────────────────────────── */
+
+.carte-amoureux {
+    border-color: var(--cupidon);
+    background: linear-gradient(135deg, rgba(214, 51, 126, 0.16), var(--carte));
+}
+
+.carte-amoureux .carte-titre {
+    color: var(--cupidon-clair);
+}
+
+/* ─── Fin de partie ──────────────────────────────────────────── */
+
+.annonce-victoire {
+    padding: 1.6rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid var(--or);
+    border-radius: var(--rayon);
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.16), var(--carte));
+    text-align: center;
+}
+
+.annonce-victoire h2 {
+    color: var(--or-clair);
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.annonce-victoire p {
+    color: var(--texte);
+}
+
+.tableau-revelations {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.tableau-revelations td {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--bordure);
+    text-align: left;
+}
+
+.tableau-revelations td:last-child {
+    text-align: right;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--or-clair);
+}
+
+/* ─── Bouton d'ouverture des regles ──────────────────────────── */
+
+.barre-regles {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 120;
+}
+
+.bouton-regles {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    border: 1px solid var(--or-eteint);
+    border-radius: 24px;
+    background: var(--carte);
+    color: var(--or-clair);
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}

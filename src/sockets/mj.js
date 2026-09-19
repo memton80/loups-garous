@@ -37,7 +37,7 @@ function adresseDe(socket) {
  */
 function exigerMj(socket, ack) {
     if (socket.data.estMj) return true;
-    repondre(ack, { ok: false, erreur: "Vous n'etes pas authentifie." });
+    repondre(ack, { ok: false, erreur: "Vous n'êtes pas authentifié." });
     return false;
 }
 
@@ -69,7 +69,7 @@ export function brancherMaitreDuJeu(io, socket) {
 
     socket.on("mj:session", ({ jeton } = {}, ack) => {
         if (!sessionValide(jeton)) {
-            return repondre(ack, { ok: false, erreur: "Session expiree." });
+            return repondre(ack, { ok: false, erreur: "Session expirée." });
         }
         ouvrirSession(io, socket, jeton);
         repondre(ack, { ok: true });
@@ -89,7 +89,7 @@ export function brancherMaitreDuJeu(io, socket) {
         if (!partie) return;
 
         io.to(salleJoueurs(partie.code)).emit("joueur:ejecte", {
-            motif: "La partie a ete fermee par le maitre du jeu.",
+            motif: "La partie a été fermée par le maître du jeu.",
         });
         io.socketsLeave(salleJoueurs(partie.code));
         io.socketsLeave(salleSpectateurs(partie.code));
@@ -174,7 +174,7 @@ export function brancherMaitreDuJeu(io, socket) {
 
         const socketJoueur = joueur.socketId ? io.sockets.sockets.get(joueur.socketId) : null;
         socketJoueur?.emit("joueur:ejecte", {
-            motif: "Le maitre du jeu vous a retire de la partie.",
+            motif: "Le maître du jeu vous a retiré de la partie.",
         });
         socketJoueur?.leave(salleJoueurs(partie.code));
         if (socketJoueur) {

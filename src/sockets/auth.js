@@ -56,7 +56,7 @@ export function verifierPin(adresse, pin) {
     if (maintenant < suivi.prochainEssai) {
         return {
             ok: false,
-            erreur: "Trop de tentatives. Patientez avant de reessayer.",
+            erreur: "Trop de tentatives. Patientez avant de réessayer.",
             attenteSecondes: Math.ceil((suivi.prochainEssai - maintenant) / 1000),
         };
     }

@@ -189,7 +189,7 @@ describe("archivage", () => {
 
         const refuse = await demander(client(), "mj:archive", { code: "ARC4" });
         assert.equal(refuse.ok, false);
-        assert.match(refuse.erreur, /authentifie/);
+        assert.match(refuse.erreur, /authentifié/);
     });
 
     it("ne garde aucune trace d'une partie fermee avant d'avoir commence", async () => {

@@ -21,7 +21,7 @@ export function evaluerVictoire(partie) {
     if (vivants.length === 0) {
         return {
             camp: CAMPS_VICTORIEUX.PERSONNE,
-            message: "Le village s'est eteint. Personne ne gagne.",
+            message: "Le village s'est éteint. Personne ne gagne.",
         };
     }
 
@@ -42,14 +42,14 @@ export function evaluerVictoire(partie) {
     if (loups.length === 0) {
         return {
             camp: CAMPS_VICTORIEUX.VILLAGE,
-            message: "Tous les loups ont ete elimines : le village a gagne.",
+            message: "Tous les loups ont été éliminés : le village a gagné.",
         };
     }
 
     if (loups.length >= village.length) {
         return {
             camp: CAMPS_VICTORIEUX.LOUPS,
-            message: "Les loups sont aussi nombreux que les villageois : ils ont gagne.",
+            message: "Les loups sont aussi nombreux que les villageois : ils ont gagné.",
         };
     }
 

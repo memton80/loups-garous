@@ -32,9 +32,9 @@ function codeLibre() {
 
 export function creerSalon(codeDemande = null) {
     const code = codeDemande ? normaliserCode(codeDemande) : codeLibre();
-    if (parties.has(code)) return { ok: false, erreur: "Ce code est deja utilise." };
+    if (parties.has(code)) return { ok: false, erreur: "Ce code est déjà utilisé." };
     if (!/^[A-Z0-9]{3,6}$/.test(code)) {
-        return { ok: false, erreur: "Le code doit faire 3 a 6 lettres ou chiffres." };
+        return { ok: false, erreur: "Le code doit faire 3 à 6 lettres ou chiffres." };
     }
 
     const partie = creerPartie(code);

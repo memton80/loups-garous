@@ -40,7 +40,7 @@ function contexte(socket) {
 
 function agir(io, socket, ack, executer) {
     const ctx = contexte(socket);
-    if (!ctx) return repondre(ack, { ok: false, erreur: "Vous n'etes dans aucune partie." });
+    if (!ctx) return repondre(ack, { ok: false, erreur: "Vous n'êtes dans aucune partie." });
 
     const resultat = executer(ctx.partie, ctx.joueur);
     if (!resultat.ok) return repondre(ack, { ok: false, erreur: resultat.erreur });
@@ -65,19 +65,19 @@ export function brancherJoueur(io, socket) {
             if (partie.phase !== PHASES.ATTENTE) {
                 return repondre(ack, {
                     ok: false,
-                    erreur: "La partie a deja commence.",
+                    erreur: "La partie a déjà commencé.",
                 });
             }
             if (!pseudoValide(pseudo)) {
                 return repondre(ack, {
                     ok: false,
-                    erreur: "Pseudo invalide : 2 a 20 caracteres, lettres, chiffres, espace ou tiret.",
+                    erreur: "Pseudo invalide : 2 à 20 caractères, lettres, chiffres, espace ou tiret.",
                 });
             }
             if (pseudoDejaPris(partie, pseudo)) {
                 return repondre(ack, {
                     ok: false,
-                    erreur: "Ce pseudo est deja pris dans cette partie.",
+                    erreur: "Ce pseudo est déjà pris dans cette partie.",
                 });
             }
             joueur = ajouterJoueur(partie, pseudo);

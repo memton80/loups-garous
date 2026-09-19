@@ -1,0 +1,190 @@
+/* ============================================================
+   roles.css — panneau depliant « Les roles »
+   Utilise par la page du joueur et par la page d'accueil.
+   ============================================================ */
+
+.panneau-roles {
+    position: fixed;
+    inset: 0;
+    z-index: 140;
+    overflow-y: auto;
+    padding: 2rem 1rem 6rem;
+    background: var(--nuit);
+}
+
+.panneau-entete {
+    text-align: center;
+    max-width: var(--largeur-page);
+    margin: 0 auto 2rem;
+}
+
+.panneau-entete h2 {
+    margin: 0.8rem 0 0.4rem;
+    font-size: 1.6rem;
+    color: var(--or);
+}
+
+.panneau-entete p {
+    color: var(--attenue);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.camp {
+    max-width: var(--largeur-page);
+    margin: 0 auto 2.4rem;
+}
+
+.camp-titre {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-clair);
+}
+
+.camp-titre::before,
+.camp-titre::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--bordure));
+}
+
+.camp-titre::after {
+    background: linear-gradient(to left, transparent, var(--bordure));
+}
+
+.camp-village   { --accent: var(--or);         --accent-clair: var(--or-clair); }
+.camp-loups     { --accent: var(--loup-garou); --accent-clair: var(--loup-garou-clair); }
+.camp-solitaire { --accent: var(--cupidon);    --accent-clair: var(--cupidon-clair); }
+
+.grille-roles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.7rem;
+}
+
+.vignette-role {
+    padding: 1rem 0.7rem;
+    text-align: center;
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon-petit);
+    background: var(--carte);
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s, background 0.2s;
+}
+
+.vignette-role:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.vignette-role.active {
+    border-color: var(--accent);
+    background: var(--profond);
+}
+
+.vignette-icone {
+    display: block;
+    font-size: 1.8rem;
+    margin-bottom: 0.4rem;
+}
+
+.vignette-nom {
+    display: block;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.82rem;
+    color: var(--texte);
+}
+
+.vignette-accroche {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--attenue);
+}
+
+.fiche-role {
+    margin-top: 1rem;
+    padding: 1.4rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--rayon);
+    background: var(--carte);
+}
+
+.fiche-entete {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.fiche-icone {
+    font-size: 2.4rem;
+}
+
+.fiche-nom {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 1.3rem;
+    color: var(--accent-clair);
+}
+
+.fiche-camp {
+    display: inline-block;
+    margin-top: 0.25rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 12px;
+    border: 1px solid var(--accent);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-clair);
+}
+
+.fiche-texte {
+    color: var(--texte);
+    margin-bottom: 1rem;
+}
+
+.pouvoirs-titre {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--attenue);
+    margin-bottom: 0.6rem;
+}
+
+.pouvoir {
+    display: flex;
+    gap: 0.7rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.92rem;
+}
+
+.pouvoir::before {
+    content: "";
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    margin-top: 0.55rem;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.pouvoir strong {
+    color: var(--accent-clair);
+}
+
+.bouton-fermer-roles {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 145;
+}

@@ -124,7 +124,7 @@ describe("entree dans une partie", () => {
             pseudo: "Eve",
         });
         assert.equal(reponse.ok, false);
-        assert.match(reponse.erreur, /deja commence/);
+        assert.match(reponse.erreur, /déjà commencé/);
     });
 });
 
@@ -138,7 +138,7 @@ describe("usurpation d'identite", () => {
             pseudo: "Ana",
         });
         assert.equal(imposteur.ok, false);
-        assert.match(imposteur.erreur, /deja pris/);
+        assert.match(imposteur.erreur, /déjà pris/);
     });
 
     it("refuse aussi la meme casse et les espaces autour", async () => {
@@ -263,7 +263,7 @@ describe("authentification du maitre du jeu", () => {
         for (const [nom, donnees] of commandes) {
             const reponse = await demander(intrus, nom, donnees);
             assert.equal(reponse.ok, false, `${nom} aurait du etre refusee`);
-            assert.match(reponse.erreur, /authentifie/);
+            assert.match(reponse.erreur, /authentifié/);
         }
     });
 
@@ -374,7 +374,7 @@ describe("conduite de la partie par le maitre du jeu", () => {
         await demander(mj, "mj:ejecter", { code: "TEST", joueurId: entrees[0].moi.joueurId });
 
         const motif = await avertissement;
-        assert.match(motif.motif, /retire/);
+        assert.match(motif.motif, /retiré/);
         assert.equal(partie.joueurs.size, 3);
     });
 

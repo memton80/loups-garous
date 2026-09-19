@@ -71,7 +71,7 @@ describe("ouverture de la partie", () => {
         for (const nom of ["Ana", "Bob", "Cid", "Dea"]) ajouterJoueur(partie, nom);
         const resultat = lancerPartie(partie, { "loup-garou": 1, villageois: 1 }, aleaFixe());
         assert.equal(resultat.ok, false);
-        assert.match(resultat.erreur, /2 roles pour 4 joueurs/);
+        assert.match(resultat.erreur, /2 rôles pour 4 joueurs/);
     });
 
     it("refuse d'etre lancee deux fois", () => {
@@ -183,7 +183,7 @@ describe("vote des loups", () => {
 
         const resultat = voterLoup(partie, loupA.id, loupB.id);
         assert.equal(resultat.ok, false);
-        assert.match(resultat.erreur, /ne se devorent pas/);
+        assert.match(resultat.erreur, /ne se dévorent pas/);
     });
 
     it("interdit a un villageois de voter avec les loups", () => {
@@ -241,7 +241,7 @@ describe("voyante", () => {
         assert.ok(actionVoyante(partie, voyante.id, ciblea.id).ok);
         const seconde = actionVoyante(partie, voyante.id, cibleb.id);
         assert.equal(seconde.ok, false);
-        assert.match(seconde.erreur, /deja consulte/);
+        assert.match(seconde.erreur, /déjà consulté/);
     });
 
     it("rend la consultation a la nuit suivante", () => {
@@ -337,7 +337,7 @@ describe("sorciere", () => {
 
         const resultat = actionSorciere(partie, sorciere.id, { antidote: true });
         assert.equal(resultat.ok, false);
-        assert.match(resultat.erreur, /deja consomme/);
+        assert.match(resultat.erreur, /déjà consommé/);
     });
 
     it("refuse d'agir deux fois dans la meme nuit", () => {

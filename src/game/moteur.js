@@ -62,7 +62,7 @@ function succes(partie, evenements) {
  */
 export function lancerPartie(partie, composition, alea = Math.random) {
     if (partie.phase !== PHASES.ATTENTE) {
-        return echec("La partie est deja lancee.");
+        return echec("La partie est déjà lancée.");
     }
 
     const joueurs = tousLesJoueurs(partie);
@@ -282,8 +282,8 @@ function resoudreVote(partie) {
  * `forcer` permet d'abandonner une attente bloquee (chasseur absent de l'appli).
  */
 export function avancer(partie, { forcer = false } = {}) {
-    if (partie.phase === PHASES.TERMINEE) return echec("La partie est terminee.");
-    if (partie.phase === PHASES.ATTENTE) return echec("La partie n'est pas lancee.");
+    if (partie.phase === PHASES.TERMINEE) return echec("La partie est terminée.");
+    if (partie.phase === PHASES.ATTENTE) return echec("La partie n'est pas lancée.");
 
     if (partie.enAttente) {
         if (!forcer) {
@@ -400,7 +400,7 @@ function verifierActeur(partie, joueurId, roleAttendu, etapeAttendue) {
     const acteur = joueur(partie, joueurId);
     if (!acteur) return "Joueur inconnu.";
     if (!acteur.vivant) return "Les morts n'agissent plus.";
-    if (acteur.role !== roleAttendu) return "Ce n'est pas votre role.";
+    if (acteur.role !== roleAttendu) return "Ce n'est pas votre rôle.";
     if (etapeCourante(partie)?.id !== etapeAttendue) return "Ce n'est pas votre tour.";
     return null;
 }
@@ -409,12 +409,12 @@ export function voterLoup(partie, joueurId, cibleId) {
     if (partie.phase !== PHASES.NUIT) return echec("Ce n'est pas la nuit.");
     const loup = joueur(partie, joueurId);
     if (!loup?.vivant) return echec("Les morts ne votent plus.");
-    if (campDe(loup.role) !== CAMPS.LOUPS) return echec("Ce n'est pas votre role.");
+    if (campDe(loup.role) !== CAMPS.LOUPS) return echec("Ce n'est pas votre rôle.");
     if (etapeCourante(partie)?.id !== ETAPES_NUIT.LOUPS) return echec("Ce n'est pas votre tour.");
 
     const cible = joueur(partie, cibleId);
     if (!cible?.vivant) return echec("Cette cible n'est plus en vie.");
-    if (campDe(cible.role) === CAMPS.LOUPS) return echec("Les loups ne se devorent pas entre eux.");
+    if (campDe(cible.role) === CAMPS.LOUPS) return echec("Les loups ne se dévorent pas entre eux.");
 
     partie.votesLoups.set(joueurId, cibleId);
 
@@ -431,11 +431,11 @@ export function voterLoup(partie, joueurId, cibleId) {
 export function actionVoyante(partie, joueurId, cibleId) {
     const erreur = verifierActeur(partie, joueurId, "voyante", ETAPES_NUIT.VOYANTE);
     if (erreur) return echec(erreur);
-    if (partie.voyanteAJoue) return echec("Vous avez deja consulte cette nuit.");
+    if (partie.voyanteAJoue) return echec("Vous avez déjà consulté cette nuit.");
 
     const cible = joueur(partie, cibleId);
     if (!cible?.vivant) return echec("Cette cible n'est plus en vie.");
-    if (cibleId === joueurId) return echec("Inutile de vous consulter vous-meme.");
+    if (cibleId === joueurId) return echec("Inutile de vous consulter vous-même.");
 
     partie.voyanteAJoue = true;
 
@@ -451,19 +451,19 @@ export function actionVoyante(partie, joueurId, cibleId) {
 export function actionSorciere(partie, joueurId, { antidote = false, ciblePoison = null } = {}) {
     const erreur = verifierActeur(partie, joueurId, "sorciere", ETAPES_NUIT.SORCIERE);
     if (erreur) return echec(erreur);
-    if (partie.sorciereAJoue) return echec("Vous avez deja agi cette nuit.");
+    if (partie.sorciereAJoue) return echec("Vous avez déjà agi cette nuit.");
 
     if (antidote) {
-        if (!partie.potions.vie) return echec("Votre antidote est deja consomme.");
-        if (!partie.cibleLoups) return echec("Il n'y a personne a sauver cette nuit.");
+        if (!partie.potions.vie) return echec("Votre antidote est déjà consommé.");
+        if (!partie.cibleLoups) return echec("Il n'y a personne à sauver cette nuit.");
     }
 
     if (ciblePoison) {
-        if (!partie.potions.mort) return echec("Votre poison est deja consomme.");
+        if (!partie.potions.mort) return echec("Votre poison est déjà consommé.");
         const cible = joueur(partie, ciblePoison);
         if (!cible?.vivant) return echec("Cette cible n'est plus en vie.");
         if (ciblePoison === partie.cibleLoups) {
-            return echec("Les loups s'occupent deja de cette personne.");
+            return echec("Les loups s'occupent déjà de cette personne.");
         }
     }
 
@@ -485,17 +485,17 @@ export function actionSorciere(partie, joueurId, { antidote = false, ciblePoison
 export function actionCupidon(partie, joueurId, amoureux) {
     const erreur = verifierActeur(partie, joueurId, "cupidon", ETAPES_NUIT.CUPIDON);
     if (erreur) return echec(erreur);
-    if (partie.amoureux) return echec("Les amoureux sont deja lies.");
+    if (partie.amoureux) return echec("Les amoureux sont déjà liés.");
 
     if (!Array.isArray(amoureux) || amoureux.length !== 2) {
-        return echec("Il faut designer exactement deux joueurs.");
+        return echec("Il faut désigner exactement deux joueurs.");
     }
     const [premierId, secondId] = amoureux;
-    if (premierId === secondId) return echec("Choisissez deux joueurs differents.");
+    if (premierId === secondId) return echec("Choisissez deux joueurs différents.");
 
     const premier = joueur(partie, premierId);
     const second = joueur(partie, secondId);
-    if (!premier?.vivant || !second?.vivant) return echec("Les deux joueurs doivent etre en vie.");
+    if (!premier?.vivant || !second?.vivant) return echec("Les deux joueurs doivent être en vie.");
 
     partie.amoureux = [premierId, secondId];
 
@@ -507,7 +507,7 @@ export function actionCupidon(partie, joueurId, amoureux) {
 
 export function actionChasseur(partie, joueurId, cibleId) {
     if (partie.enAttente?.type !== "chasseur" || partie.enAttente.joueurId !== joueurId) {
-        return echec("Ce n'est pas a vous de tirer.");
+        return echec("Ce n'est pas à vous de tirer.");
     }
 
     const cible = joueur(partie, cibleId);
@@ -537,7 +537,7 @@ export function voterVillage(partie, joueurId, cibleId) {
 
     const cible = joueur(partie, cibleId);
     if (!cible?.vivant) return echec("Cette cible n'est plus en vie.");
-    if (cibleId === joueurId) return echec("On ne vote pas contre soi-meme.");
+    if (cibleId === joueurId) return echec("On ne vote pas contre soi-même.");
 
     partie.votesVillage.set(joueurId, cibleId);
 
@@ -555,7 +555,7 @@ export function voterVillage(partie, joueurId, cibleId) {
 export function tuerParMj(partie, joueurId) {
     const cible = joueur(partie, joueurId);
     if (!cible) return echec("Joueur inconnu.");
-    if (!cible.vivant) return echec("Ce joueur est deja mort.");
+    if (!cible.vivant) return echec("Ce joueur est déjà mort.");
 
     partie.fileMorts.push({ joueurId, cause: CAUSES.MJ });
     return succes(partie, continuerResolution(partie));
@@ -564,7 +564,7 @@ export function tuerParMj(partie, joueurId) {
 export function ressusciterParMj(partie, joueurId) {
     const cible = joueur(partie, joueurId);
     if (!cible) return echec("Joueur inconnu.");
-    if (cible.vivant) return echec("Ce joueur est deja en vie.");
+    if (cible.vivant) return echec("Ce joueur est déjà en vie.");
 
     cible.vivant = true;
     if (partie.phase === PHASES.TERMINEE) {
@@ -581,7 +581,7 @@ export function ressusciterParMj(partie, joueurId) {
 export function changerRoleParMj(partie, joueurId, roleId) {
     const cible = joueur(partie, joueurId);
     if (!cible) return echec("Joueur inconnu.");
-    if (!roleExiste(roleId)) return echec("Role inconnu.");
+    if (!roleExiste(roleId)) return echec("Rôle inconnu.");
 
     cible.role = roleId;
     return succes(partie, [
@@ -590,7 +590,7 @@ export function changerRoleParMj(partie, joueurId, roleId) {
 }
 
 export function forcerPhaseParMj(partie, phase) {
-    if (partie.phase === PHASES.ATTENTE) return echec("La partie n'est pas lancee.");
+    if (partie.phase === PHASES.ATTENTE) return echec("La partie n'est pas lancée.");
     if (phase === PHASES.NUIT) return succes(partie, ouvrirNuit(partie));
     if (phase === PHASES.JOUR) return succes(partie, ouvrirJour(partie));
     return echec("Phase inconnue.");

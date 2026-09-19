@@ -56,11 +56,11 @@ export function validerComposition(composition, nbJoueurs) {
 
     for (const [id, nombre] of Object.entries(composition)) {
         if (!roleExiste(id)) {
-            erreurs.push(`Role inconnu : ${id}.`);
+            erreurs.push(`Rôle inconnu : ${id}.`);
             continue;
         }
         if (!Number.isInteger(nombre) || nombre < 0) {
-            erreurs.push(`Le nombre de ${id} doit etre un entier positif.`);
+            erreurs.push(`Le nombre de ${id} doit être un entier positif.`);
             continue;
         }
         if (nombre > 1 && role(id).unique) {
@@ -71,7 +71,7 @@ export function validerComposition(composition, nbJoueurs) {
     const total = totalComposition(composition);
     if (total !== nbJoueurs) {
         erreurs.push(
-            `La composition compte ${total} role${total > 1 ? "s" : ""} pour ${nbJoueurs} joueur${nbJoueurs > 1 ? "s" : ""}.`
+            `La composition compte ${total} rôle${total > 1 ? "s" : ""} pour ${nbJoueurs} joueur${nbJoueurs > 1 ? "s" : ""}.`
         );
     }
 
@@ -80,7 +80,7 @@ export function validerComposition(composition, nbJoueurs) {
         .reduce((somme, [, n]) => somme + n, 0);
 
     if (loups < 1) erreurs.push("Il faut au moins un loup-garou.");
-    if (loups >= total - loups) erreurs.push("Les loups ne peuvent pas etre aussi nombreux que le village : la partie serait finie d'entree.");
+    if (loups >= total - loups) erreurs.push("Les loups ne peuvent pas être aussi nombreux que le village : la partie serait finie d'entrée.");
 
     return erreurs;
 }

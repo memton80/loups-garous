@@ -1,0 +1,191 @@
+/* ============================================================
+   base.css — jetons, remise a zero, typographie, decor
+   Chargee en premier par toutes les pages.
+   ============================================================ */
+
+:root {
+    /* Fonds, du plus profond au plus clair */
+    --nuit: #0a0c12;
+    --profond: #10131e;
+    --carte: #151822;
+    --bordure: #2a2f45;
+
+    /* Couleurs de marque */
+    --or: #c9a84c;
+    --or-clair: #e8c97a;
+    --or-eteint: #7a6030;
+    --sang: #8b1a1a;
+    --sang-clair: #c0392b;
+    --argent: #8899bb;
+    --vert: #4caf80;
+
+    /* Textes */
+    --texte: #d4cfc4;
+    --attenue: #6a7080;
+
+    /* Un couple de teintes par role : les cartes et les pastilles s'en
+       servent via --accent, ce qui evite de repeter un bloc par role. */
+    --loup-garou: #6b3fa0;
+    --loup-garou-clair: #9b6fd4;
+    --voyante: #6a5acd;
+    --voyante-clair: #9370db;
+    --sorciere: #8b008b;
+    --sorciere-clair: #da70d6;
+    --cupidon: #d6337e;
+    --cupidon-clair: #ff9ec4;
+    --petite-fille: #b8961f;
+    --petite-fille-clair: #ffd700;
+    --chasseur: #a0522d;
+    --chasseur-clair: #d2874f;
+    --villageois: #7a6030;
+    --villageois-clair: #c9a84c;
+
+    /* Par defaut, l'accent est l'or de la marque. */
+    --accent: var(--or);
+    --accent-clair: var(--or-clair);
+
+    --rayon: 12px;
+    --rayon-petit: 6px;
+    --largeur-page: 680px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Le JS ne manipule que l'attribut `hidden` ; sans ce !important, un element
+   en flex ou en grid resterait visible malgre lui. */
+[hidden] {
+    display: none !important;
+}
+
+html {
+    /* Compense la barre d'adresse des navigateurs mobiles. */
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    background: var(--nuit);
+    color: var(--texte);
+    font-family: "Crimson Text", Georgia, serif;
+    font-size: 18px;
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ─── Decor : ciel etoile ────────────────────────────────────
+   Entierement en CSS. L'ancienne page d'accueil fabriquait ses etoiles en
+   JavaScript en ecrivant des styles en ligne ; le resultat est le meme et le
+   HTML reste propre. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        radial-gradient(1px 1px at 15% 20%, rgba(255, 255, 255, 0.6), transparent),
+        radial-gradient(1px 1px at 42% 8%, rgba(255, 255, 255, 0.4), transparent),
+        radial-gradient(1.5px 1.5px at 70% 15%, rgba(255, 255, 255, 0.5), transparent),
+        radial-gradient(1px 1px at 88% 30%, rgba(255, 255, 255, 0.3), transparent),
+        radial-gradient(1px 1px at 25% 55%, rgba(255, 255, 255, 0.3), transparent),
+        radial-gradient(1px 1px at 60% 70%, rgba(255, 255, 255, 0.4), transparent),
+        radial-gradient(1px 1px at 5% 80%, rgba(255, 255, 255, 0.3), transparent),
+        radial-gradient(1px 1px at 95% 65%, rgba(255, 255, 255, 0.4), transparent),
+        radial-gradient(1px 1px at 33% 88%, rgba(255, 255, 255, 0.25), transparent),
+        radial-gradient(1.5px 1.5px at 78% 45%, rgba(255, 255, 255, 0.35), transparent);
+}
+
+/* ─── Decor : grain de pellicule ─────────────────────────────
+   Un bruit SVG en fond, pour casser les aplats trop lisses. */
+.grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* ─── Typographie ────────────────────────────────────────────── */
+
+h1,
+h2,
+h3,
+.titre {
+    font-family: "Cinzel", Georgia, serif;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.sur-titre {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--attenue);
+}
+
+.ornement {
+    font-size: 0.75rem;
+    letter-spacing: 0.5em;
+    color: var(--or-eteint);
+}
+
+a {
+    color: var(--or-clair);
+}
+
+/* ─── Mise en page commune ───────────────────────────────────── */
+
+.page {
+    position: relative;
+    z-index: 2;
+    max-width: var(--largeur-page);
+    margin: 0 auto;
+    /* La marge du bas laisse la place au bouton flottant des regles. */
+    padding: 2rem 1rem 6rem;
+}
+
+.entete-page {
+    text-align: center;
+    padding: 2rem 0 1.5rem;
+    border-bottom: 1px solid var(--bordure);
+    margin-bottom: 1.5rem;
+}
+
+.entete-page h1 {
+    font-size: 2.2rem;
+    color: var(--or);
+    text-shadow: 0 0 40px rgba(201, 168, 76, 0.3);
+}
+
+.sous-titre {
+    margin-top: 0.6rem;
+    color: var(--attenue);
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
+/* ─── Accessibilite ──────────────────────────────────────────── */
+
+:focus-visible {
+    outline: 2px solid var(--or-clair);
+    outline-offset: 2px;
+}
+
+/* Respecte le reglage systeme de ceux que les animations genent. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

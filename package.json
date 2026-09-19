@@ -1,0 +1,21 @@
+{
+  "name": "loups-garous",
+  "version": "1.0.0",
+  "description": "Loup-Garou en reseau local — distribution des roles et actions nocturnes pour une partie en face-a-face",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "license": "MIT"
+}

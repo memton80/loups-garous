@@ -4,6 +4,8 @@ import express from "express";
 import { Server } from "socket.io";
 
 import { config } from "./config.js";
+import { ouvrirBase, partiesAReprendre } from "./db/index.js";
+import { enregistrerSalon } from "./salons.js";
 import { brancherSockets } from "./sockets/index.js";
 
 /**
@@ -14,7 +16,18 @@ import { brancherSockets } from "./sockets/index.js";
  * Separe de server.js pour que les tests puissent demarrer une instance sur un
  * port libre, puis la refermer.
  */
-export function creerServeur() {
+export function creerServeur({ fichierBase = config.fichierBase, reprendre = true } = {}) {
+    ouvrirBase(fichierBase);
+
+    let reprises = 0;
+    if (reprendre) {
+        for (const partie of partiesAReprendre()) {
+            if (partie.joueurs.size === 0) continue;
+            enregistrerSalon(partie);
+            reprises += 1;
+        }
+    }
+
     const app = express();
     const serveurHttp = createServer(app);
     const io = new Server(serveurHttp);
@@ -28,5 +41,5 @@ export function creerServeur() {
 
     brancherSockets(io);
 
-    return { app, serveurHttp, io };
+    return { app, serveurHttp, io, reprises };
 }

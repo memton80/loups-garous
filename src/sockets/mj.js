@@ -8,7 +8,7 @@ import {
     tuerParMj,
 } from "../game/moteur.js";
 import { compositionAutomatique, rolesDisponibles } from "../game/distribution.js";
-import { retirerJoueur, vueMaitreDuJeu } from "../game/partie.js";
+import { PHASES, retirerJoueur, vueMaitreDuJeu } from "../game/partie.js";
 import {
     SALLE_MJ,
     creerSalon,
@@ -18,6 +18,7 @@ import {
     supprimerSalon,
     tousLesSalons,
 } from "../salons.js";
+import { archiveDeLaPartie, oublierPartie, partiesTerminees } from "../db/index.js";
 import { sessionValide, verifierPin } from "./auth.js";
 import { diffuser, envoyerListeParties, synchroniser } from "./diffusion.js";
 
@@ -93,6 +94,11 @@ export function brancherMaitreDuJeu(io, socket) {
         io.socketsLeave(salleJoueurs(partie.code));
         io.socketsLeave(salleSpectateurs(partie.code));
         supprimerSalon(partie.code);
+
+        // Une partie qui n'a jamais demarre ne merite pas de trace ; des
+        // qu'elle a ete jouee, son deroule reste archive pour l'historique.
+        if (partie.phase === PHASES.ATTENTE) oublierPartie(partie.code);
+
         envoyerListeParties(io);
         repondre(ack, { ok: true });
     });
@@ -191,6 +197,21 @@ export function brancherMaitreDuJeu(io, socket) {
             // Le maitre du jeu a droit au journal complet, confidences comprises.
             evenements: partie.historique.map(({ destinataires, ...reste }) => reste),
         });
+    });
+
+    socket.on("mj:archives", ({ limite } = {}, ack) => {
+        if (!exigerMj(socket, ack)) return;
+        repondre(ack, {
+            ok: true,
+            parties: partiesTerminees(Math.min(Number(limite) || 50, 200)),
+        });
+    });
+
+    socket.on("mj:archive", ({ code } = {}, ack) => {
+        if (!exigerMj(socket, ack)) return;
+        const archive = archiveDeLaPartie(String(code ?? "").toUpperCase());
+        if (!archive) return repondre(ack, { ok: false, erreur: "Partie inconnue dans l'historique." });
+        repondre(ack, { ok: true, archive });
     });
 
     socket.on("mj:catalogue", (_donnees, ack) => {

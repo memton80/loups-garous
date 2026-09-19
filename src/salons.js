@@ -42,6 +42,12 @@ export function creerSalon(codeDemande = null) {
     return { ok: true, partie };
 }
 
+/** Replace en memoire une partie relue depuis la base au demarrage. */
+export function enregistrerSalon(partie) {
+    parties.set(partie.code, partie);
+    return partie;
+}
+
 export function salon(code) {
     return parties.get(normaliserCode(code)) ?? null;
 }

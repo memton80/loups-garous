@@ -271,3 +271,36 @@ export function historiquePublic(partie) {
         .filter((e) => e.visibilite === "publique")
         .map(({ destinataires, ...reste }) => reste);
 }
+
+/**
+ * Conversion en texte pour la base. Les Map ne survivent pas a JSON.stringify,
+ * on les rend sous forme de paires.
+ */
+export function serialiserPartie(partie) {
+    return JSON.stringify({
+        ...partie,
+        joueurs: [...partie.joueurs.entries()],
+        votesLoups: [...partie.votesLoups.entries()],
+        votesVillage: [...partie.votesVillage.entries()],
+    });
+}
+
+/**
+ * Relecture d'une partie archivee. Personne n'est connecte au retour : les
+ * sockets d'avant le redemarrage n'existent plus, chacun se reconnectera avec
+ * son jeton.
+ */
+export function deserialiserPartie(texte) {
+    const brut = JSON.parse(texte);
+
+    const joueurs = new Map(
+        brut.joueurs.map(([id, joueur]) => [id, { ...joueur, connecte: false, socketId: null }])
+    );
+
+    return {
+        ...brut,
+        joueurs,
+        votesLoups: new Map(brut.votesLoups),
+        votesVillage: new Map(brut.votesVillage),
+    };
+}

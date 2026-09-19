@@ -5,6 +5,7 @@ import {
     vuePublique,
 } from "../game/partie.js";
 import { SALLE_MJ, salleJoueurs, salleSpectateurs, tousLesSalons } from "../salons.js";
+import { archiverEvenements, enregistrerPartie } from "../db/index.js";
 
 /**
  * Aiguillage des evenements du moteur vers les sockets.
@@ -27,6 +28,8 @@ function socketDuJoueur(io, partie, joueurId) {
 }
 
 export function diffuser(io, partie, evenements = []) {
+    archiverEvenements(partie, evenements);
+
     for (const evenement of evenements) {
         const contenu = sansEnveloppe(evenement);
 
@@ -52,6 +55,8 @@ export function diffuser(io, partie, evenements = []) {
  * client qui a rate un message se remet ainsi tout seul a jour.
  */
 export function synchroniser(io, partie) {
+    enregistrerPartie(partie);
+
     const vue = vuePublique(partie);
     io.to(salleJoueurs(partie.code)).emit("partie:etat", vue);
     io.to(salleSpectateurs(partie.code)).emit("partie:etat", vue);

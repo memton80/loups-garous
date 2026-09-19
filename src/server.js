@@ -3,7 +3,7 @@ import { networkInterfaces } from "node:os";
 import { creerServeur } from "./app.js";
 import { config } from "./config.js";
 
-const { serveurHttp, io } = creerServeur();
+const { serveurHttp, io, reprises } = creerServeur();
 
 /** Adresses IPv4 non locales de la machine, pour afficher ou se connecter. */
 function adressesLocales() {
@@ -15,6 +15,9 @@ function adressesLocales() {
 
 serveurHttp.listen(config.port, () => {
     console.log("Loup-Garou de Lannion — serveur demarre");
+    if (reprises > 0) {
+        console.log(`  ${reprises} partie(s) en cours reprise(s) depuis la base`);
+    }
     console.log(`  local  : http://localhost:${config.port}`);
     for (const adresse of adressesLocales()) {
         console.log(`  reseau : http://${adresse}:${config.port}`);

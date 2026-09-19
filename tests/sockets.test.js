@@ -54,7 +54,8 @@ function attendre(socket, evenement, delai = 2000) {
 }
 
 before(async () => {
-    const serveur = creerServeur();
+    // Base en memoire : les tests ne doivent jamais toucher au fichier reel.
+    const serveur = creerServeur({ fichierBase: ":memory:", reprendre: false });
     serveurHttp = serveur.serveurHttp;
     await new Promise((resoudre) => serveurHttp.listen(0, resoudre));
     url = `http://localhost:${serveurHttp.address().port}`;

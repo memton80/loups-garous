@@ -1,0 +1,563 @@
+/* ============================================================
+   mj.css — connexion et tableau de bord du maître du jeu
+   ============================================================ */
+
+/* ─── Pavé numérique ─────────────────────────────────────────── */
+
+.connexion-mj {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    text-align: center;
+}
+
+.connexion-mj h1 {
+    margin: 0.6rem 0 1.6rem;
+    font-size: 1.4rem;
+    color: var(--or);
+}
+
+.avertissement {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sang-clair);
+}
+
+.points-code {
+    display: flex;
+    justify-content: center;
+    gap: 1.1rem;
+    margin-bottom: 1.4rem;
+}
+
+.point-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--or-eteint);
+    border-radius: 50%;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.9rem;
+    color: var(--nuit);
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.point-code.rempli {
+    background: var(--or);
+    border-color: var(--or-clair);
+    box-shadow: 0 0 10px rgba(201, 168, 76, 0.6);
+}
+
+.point-code.actif {
+    border-color: var(--or-clair);
+}
+
+.point-code.erreur {
+    background: var(--sang);
+    border-color: var(--sang-clair);
+    box-shadow: 0 0 10px rgba(160, 48, 32, 0.6);
+    animation: secousse 0.4s ease;
+}
+
+@keyframes secousse {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-6px); }
+    75%      { transform: translateX(6px); }
+}
+
+.etat-code {
+    min-height: 1.6rem;
+    margin-bottom: 0.8rem;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.etat-code.visible { opacity: 1; }
+.etat-code.succes  { color: var(--or-clair); }
+.etat-code.echec   { color: var(--sang-clair); }
+
+.pave {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
+    width: min(300px, 100%);
+    margin: 0 auto 1.6rem;
+}
+
+.touche {
+    height: 64px;
+    border: 1px solid rgba(120, 80, 20, 0.45);
+    border-radius: var(--rayon-petit);
+    background: #231508;
+    color: var(--or-clair);
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.touche:hover {
+    background: #3a2210;
+    border-color: var(--or-eteint);
+}
+
+.touche:active {
+    transform: scale(0.94);
+    background: #2e1a08;
+}
+
+.touche-effacer {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+}
+
+.touche-vide {
+    visibility: hidden;
+}
+
+.lien-retour {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--attenue);
+    text-decoration: none;
+}
+
+/* ─── Tableau de bord ────────────────────────────────────────── */
+
+.page-mj {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 4rem;
+}
+
+.barre-haut {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.4rem;
+    border-bottom: 1px solid var(--bordure);
+}
+
+.barre-haut h1 {
+    flex: 1;
+    font-size: 1.3rem;
+    color: var(--or);
+}
+
+.pastille-service {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--vert);
+    box-shadow: 0 0 8px var(--vert);
+}
+
+.pastille-service.hors-ligne {
+    background: var(--sang-clair);
+    box-shadow: 0 0 8px var(--sang-clair);
+}
+
+.compte-parties {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--attenue);
+}
+
+.barre-creation {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.4rem;
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+    background: var(--carte);
+}
+
+.barre-creation label {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--attenue);
+}
+
+.barre-creation input[type="text"] {
+    width: 140px;
+    text-transform: uppercase;
+}
+
+.grille-parties {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.2rem;
+    align-items: start;
+}
+
+.aucune-partie {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    font-style: italic;
+    color: var(--attenue);
+    border: 1px dashed var(--bordure);
+    border-radius: var(--rayon);
+}
+
+/* ─── Carte d'une partie ─────────────────────────────────────── */
+
+.carte-partie {
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon);
+    background: var(--carte);
+    overflow: hidden;
+}
+
+.carte-partie.nuit { border-color: var(--loup-garou); }
+.carte-partie.jour { border-color: var(--or-eteint); }
+.carte-partie.terminee { border-color: var(--sang); }
+
+.entete-partie {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--bordure);
+    background: var(--profond);
+}
+
+.code-partie {
+    flex: 1;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.22em;
+    color: var(--or);
+}
+
+.etiquette-phase {
+    padding: 0.22rem 0.7rem;
+    border: 1px solid var(--bordure);
+    border-radius: 12px;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--attenue);
+}
+
+.etiquette-phase.nuit     { border-color: var(--loup-garou); color: var(--loup-garou-clair); }
+.etiquette-phase.jour     { border-color: var(--or-eteint);  color: var(--or-clair); }
+.etiquette-phase.terminee { border-color: var(--sang);       color: #e8a0a0; }
+
+.corps-partie {
+    padding: 1.1rem;
+}
+
+.section-mj + .section-mj {
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--bordure);
+}
+
+.titre-section {
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--attenue);
+    margin-bottom: 0.7rem;
+}
+
+/* ─── Composeur de rôles ─────────────────────────────────────── */
+
+.composeur {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.ligne-role {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--rayon-petit);
+    background: var(--profond);
+}
+
+.ligne-role .icone {
+    font-size: 1.1rem;
+}
+
+.ligne-role .nom {
+    flex: 1;
+    font-size: 0.92rem;
+}
+
+.ligne-role.loups .nom {
+    color: var(--loup-garou-clair);
+}
+
+.compteur {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.compteur button {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon-petit);
+    background: var(--carte);
+    color: var(--texte);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.compteur button:hover:not(:disabled) {
+    border-color: var(--or-eteint);
+    color: var(--or-clair);
+}
+
+.compteur button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.compteur output {
+    min-width: 1.4rem;
+    text-align: center;
+    font-family: "Cinzel", Georgia, serif;
+    color: var(--or-clair);
+}
+
+.bilan-composition {
+    margin: 0.8rem 0;
+    font-size: 0.88rem;
+    color: var(--attenue);
+}
+
+.bilan-composition.probleme {
+    color: #e8a0a0;
+}
+
+.bilan-composition.pret {
+    color: var(--vert);
+}
+
+/* ─── Suivi des étapes de la nuit ────────────────────────────── */
+
+.etapes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+}
+
+.etape {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.7rem;
+    border: 1px solid var(--bordure);
+    border-radius: 14px;
+    font-size: 0.82rem;
+    color: var(--attenue);
+}
+
+.etape.faite {
+    border-color: #1a4a30;
+    color: var(--vert);
+}
+
+.etape.courante {
+    border-color: var(--or);
+    color: var(--or-clair);
+    box-shadow: 0 0 10px -3px var(--or);
+}
+
+.attente-mj {
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 0.9rem;
+    border: 1px solid var(--sang);
+    border-radius: var(--rayon-petit);
+    background: rgba(139, 26, 26, 0.14);
+    color: #e8b0b0;
+    font-size: 0.9rem;
+}
+
+/* ─── Joueurs, vue maître du jeu ─────────────────────────────── */
+
+.joueurs-mj {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.joueur-mj {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: var(--rayon-petit);
+    background: var(--profond);
+}
+
+.joueur-mj .nom {
+    flex: 1;
+    min-width: 6rem;
+    font-size: 0.95rem;
+}
+
+.joueur-mj.mort .nom {
+    text-decoration: line-through;
+    opacity: 0.55;
+}
+
+.etiquette-role {
+    padding: 0.15rem 0.55rem;
+    border: 1px solid var(--bordure);
+    border-radius: 10px;
+    background: var(--carte);
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-clair);
+}
+
+.etiquette-role.sans-role {
+    color: var(--attenue);
+}
+
+.marque-vote {
+    font-size: 0.75rem;
+    color: var(--vert);
+}
+
+.actions-joueur {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    width: 100%;
+}
+
+.actions-joueur select {
+    width: auto;
+    flex: 1;
+    min-width: 8rem;
+    margin: 0;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.82rem;
+}
+
+/* ─── Historique ─────────────────────────────────────────────── */
+
+.liste-archives {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ligne-archive {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--bordure);
+    border-radius: var(--rayon-petit);
+    background: var(--profond);
+    font-size: 0.9rem;
+}
+
+.ligne-archive .code {
+    font-family: "Cinzel", Georgia, serif;
+    letter-spacing: 0.18em;
+    color: var(--or-clair);
+}
+
+.ligne-archive .quand {
+    flex: 1;
+    color: var(--attenue);
+    font-size: 0.85rem;
+}
+
+.gagnant {
+    padding: 0.12rem 0.55rem;
+    border-radius: 10px;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.gagnant.village  { border: 1px solid var(--or-eteint);  color: var(--or-clair); }
+.gagnant.loups    { border: 1px solid var(--loup-garou); color: var(--loup-garou-clair); }
+.gagnant.amoureux { border: 1px solid var(--cupidon);    color: var(--cupidon-clair); }
+.gagnant.personne { border: 1px solid var(--bordure);    color: var(--attenue); }
+
+.rejeu {
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 0.4rem;
+}
+
+.rejeu p {
+    padding: 0.35rem 0.7rem;
+    margin-bottom: 0.3rem;
+    border-left: 2px solid var(--bordure);
+    border-radius: 4px;
+    background: var(--profond);
+    font-size: 0.88rem;
+    color: var(--attenue);
+}
+
+.rejeu p.privee {
+    border-left-color: var(--voyante);
+    color: var(--voyante-clair);
+}
+
+.rejeu p.tour {
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--or-eteint);
+}
+
+#boite-archives {
+    width: min(720px, 100%);
+    max-height: 85vh;
+    margin: 0;
+    overflow-y: auto;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maître du jeu — accès réservé</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/polices.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/composants.css">
+  <link rel="stylesheet" href="/css/mj.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<main class="connexion-mj">
+  <p class="avertissement">Accès réservé</p>
+  <h1>Code du maître du jeu</h1>
+
+  <div class="points-code" id="points-code">
+    <span class="point-code" id="point-0"></span>
+    <span class="point-code" id="point-1"></span>
+    <span class="point-code" id="point-2"></span>
+    <span class="point-code" id="point-3"></span>
+  </div>
+
+  <p class="etat-code" id="etat-code" role="status" aria-live="polite"></p>
+
+  <div class="pave" id="pave">
+    <button type="button" class="touche" data-chiffre="1">1</button>
+    <button type="button" class="touche" data-chiffre="2">2</button>
+    <button type="button" class="touche" data-chiffre="3">3</button>
+    <button type="button" class="touche" data-chiffre="4">4</button>
+    <button type="button" class="touche" data-chiffre="5">5</button>
+    <button type="button" class="touche" data-chiffre="6">6</button>
+    <button type="button" class="touche" data-chiffre="7">7</button>
+    <button type="button" class="touche" data-chiffre="8">8</button>
+    <button type="button" class="touche" data-chiffre="9">9</button>
+    <span class="touche touche-vide"></span>
+    <button type="button" class="touche" data-chiffre="0">0</button>
+    <button type="button" class="touche touche-effacer" id="touche-effacer">Effacer</button>
+  </div>
+
+  <a class="lien-retour" href="/">Retour à l'accueil</a>
+</main>
+
+<div class="message-eclair" id="message-eclair" role="status" aria-live="polite"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/js/mj-connexion.js"></script>
+</body>
+</html>

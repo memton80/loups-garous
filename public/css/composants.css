@@ -2,6 +2,19 @@
    composants.css — briques reutilisees par toutes les pages
    ============================================================ */
 
+/* ─── Accent par rôle ────────────────────────────────────────
+   Une seule ligne par rôle : la classe pose le couple de teintes, tout ce
+   qui suit lit --accent. Déclaré ici plutôt que dans jeu.css, parce que le
+   tableau de bord du maître du jeu colore lui aussi ses étiquettes de rôle. */
+
+.role-villageois    { --accent: var(--villageois);    --accent-clair: var(--villageois-clair); }
+.role-loup-garou    { --accent: var(--loup-garou);    --accent-clair: var(--loup-garou-clair); }
+.role-voyante       { --accent: var(--voyante);       --accent-clair: var(--voyante-clair); }
+.role-sorciere      { --accent: var(--sorciere);      --accent-clair: var(--sorciere-clair); }
+.role-cupidon       { --accent: var(--cupidon);       --accent-clair: var(--cupidon-clair); }
+.role-petite-fille  { --accent: var(--petite-fille);  --accent-clair: var(--petite-fille-clair); }
+.role-chasseur      { --accent: var(--chasseur);      --accent-clair: var(--chasseur-clair); }
+
 /* ─── Cartes ─────────────────────────────────────────────────── */
 
 .carte {

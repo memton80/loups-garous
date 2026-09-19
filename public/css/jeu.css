@@ -2,18 +2,6 @@
    jeu.css — page du joueur : carte de role et actions
    ============================================================ */
 
-/* ─── Accent par role ────────────────────────────────────────
-   Une seule regle par role, au lieu d'un bloc complet repete sept fois :
-   la classe pose le couple de teintes, tout le reste lit --accent. */
-
-.role-villageois    { --accent: var(--villageois);    --accent-clair: var(--villageois-clair); }
-.role-loup-garou    { --accent: var(--loup-garou);    --accent-clair: var(--loup-garou-clair); }
-.role-voyante       { --accent: var(--voyante);       --accent-clair: var(--voyante-clair); }
-.role-sorciere      { --accent: var(--sorciere);      --accent-clair: var(--sorciere-clair); }
-.role-cupidon       { --accent: var(--cupidon);       --accent-clair: var(--cupidon-clair); }
-.role-petite-fille  { --accent: var(--petite-fille);  --accent-clair: var(--petite-fille-clair); }
-.role-chasseur      { --accent: var(--chasseur);      --accent-clair: var(--chasseur-clair); }
-
 /* ─── Carte de role ──────────────────────────────────────────── */
 
 .carte-role {
